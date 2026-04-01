@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>지권의 변화 라이어 게임</title>
+<title>과학 라이어 게임</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -12,129 +12,135 @@ html,body{height:100%;overflow:hidden}
 body{font-family:'Noto Sans KR',sans-serif;background:#06060f;color:#e0e0ec;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;}
 .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 50% at 15% 50%,rgba(99,255,190,.06) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 85% 25%,rgba(255,99,170,.05) 0%,transparent 70%),radial-gradient(ellipse 70% 40% at 50% 90%,rgba(99,170,255,.05) 0%,transparent 70%);}
 .noise{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:128px 128px;}
-
-/* ── 공통 화면 ── */
 .screen{position:absolute;inset:0;z-index:1;display:none;flex-direction:column;align-items:center;padding:20px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .screen.active{display:flex}
 .inner{width:100%;max-width:440px}
 .title{font-family:'Black Han Sans',sans-serif;font-size:clamp(1.9rem,7vw,2.8rem);text-align:center;background:linear-gradient(135deg,#63ffbe,#ff63aa,#63aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.3;margin-bottom:2px;}
 .subtitle{text-align:center;font-size:.8rem;color:#667;margin-bottom:20px;letter-spacing:1px}
-.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:24px 20px;margin-bottom:14px;}
-.card-label{font-size:.65rem;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#63ffbe;margin-bottom:14px;}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:22px 18px;margin-bottom:14px;}
+.card-label{font-size:.65rem;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#63ffbe;margin-bottom:12px;}
 .field-label{font-size:.8rem;font-weight:600;color:#889;margin-bottom:8px}
-.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .chip{min-width:44px;height:44px;padding:0 14px;border-radius:12px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#aab;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans KR',sans-serif;}
 .chip:hover{border-color:rgba(99,255,190,.3)}
 .chip.on{border-color:#63ffbe;background:rgba(99,255,190,.1);color:#63ffbe;box-shadow:0 0 16px rgba(99,255,190,.12)}
-.mode-btn{flex:1;padding:14px 8px;border-radius:14px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#aab;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;line-height:1.5;font-family:'Noto Sans KR',sans-serif;}
+.mode-btn{flex:1;padding:12px 8px;border-radius:14px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#aab;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;line-height:1.5;font-family:'Noto Sans KR',sans-serif;}
 .mode-btn:hover{border-color:rgba(255,99,170,.3)}
 .mode-btn.on{border-color:#ff63aa;background:rgba(255,99,170,.1);color:#ff63aa}
-.timer-chip{flex:1;padding:12px 6px;border-radius:12px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#aab;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;font-family:'Noto Sans KR',sans-serif;}
+.timer-chip{flex:1;padding:10px 6px;border-radius:12px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#aab;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;font-family:'Noto Sans KR',sans-serif;}
 .timer-chip.on{border-color:#63aaff;background:rgba(99,170,255,.1);color:#63aaff}
-.btn-go{width:100%;padding:17px;border-radius:14px;border:none;font-size:1.05rem;font-weight:800;cursor:pointer;font-family:'Noto Sans KR',sans-serif;background:linear-gradient(135deg,#63ffbe,#63aaff);color:#06060f;box-shadow:0 4px 28px rgba(99,255,190,.25);transition:all .25s;margin-top:6px;}
+.btn-go{width:100%;padding:16px;border-radius:14px;border:none;font-size:1.05rem;font-weight:800;cursor:pointer;font-family:'Noto Sans KR',sans-serif;background:linear-gradient(135deg,#63ffbe,#63aaff);color:#06060f;box-shadow:0 4px 28px rgba(99,255,190,.25);transition:all .25s;margin-top:6px;}
 .btn-go:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(99,255,190,.35)}
 .btn-go:active{transform:translateY(0)}
-.btn-ghost{width:100%;padding:15px;border-radius:14px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#aab;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;}
+.btn-ghost{width:100%;padding:14px;border-radius:14px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#aab;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;margin-top:8px;}
 .btn-ghost:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.06)}
-
-/* ── 카드 확인 ── */
 .reveal-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:0;}
 .player-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(99,255,190,.08);border:1px solid rgba(99,255,190,.2);border-radius:100px;padding:7px 18px;margin-bottom:18px;font-weight:700;color:#63ffbe;font-size:.85rem;}
 .reveal-msg{font-size:1rem;color:#889;margin-bottom:28px;line-height:1.7}
 .reveal-msg strong{color:#e0e0ec}
-.tap-circle{width:200px;height:200px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;position:relative;background:rgba(99,255,190,.04);border:3px dashed rgba(99,255,190,.2);}
+.tap-circle{width:190px;height:190px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;position:relative;background:rgba(99,255,190,.04);border:3px dashed rgba(99,255,190,.2);}
 .tap-circle::after{content:'';position:absolute;inset:-10px;border-radius:50%;border:2px solid rgba(99,255,190,.08);animation:ring 2.2s ease-out infinite;}
-.tap-circle .ico{font-size:2.6rem;margin-bottom:8px}
-.tap-circle .lbl{font-size:.82rem;color:#667}
+.tap-circle .ico{font-size:2.4rem;margin-bottom:8px}
+.tap-circle .lbl{font-size:.8rem;color:#667}
 @keyframes ring{0%{transform:scale(1);opacity:1}100%{transform:scale(1.18);opacity:0}}
-.kw-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:26px 22px;width:100%;max-width:340px;text-align:left;animation:pop .35s cubic-bezier(.34,1.56,.64,1);}
-.kw-role{font-size:.65rem;font-weight:800;letter-spacing:3px;margin-bottom:14px}
+.kw-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px 20px;width:100%;max-width:340px;text-align:left;animation:pop .35s cubic-bezier(.34,1.56,.64,1);}
+.kw-role{font-size:.65rem;font-weight:800;letter-spacing:3px;margin-bottom:12px}
 .kw-role.sci{color:#63ffbe}.kw-role.liar{color:#ff4466}.kw-role.fool{color:#ffaa33}
-.kw-word{font-family:'Black Han Sans',sans-serif;font-size:clamp(1.8rem,8vw,2.6rem);line-height:1.2;margin-bottom:10px;}
-.kw-desc{font-size:.82rem;color:#889;line-height:1.75;border-top:1px solid rgba(255,255,255,.05);padding-top:10px;}
-.liar-msg{font-size:.95rem;line-height:1.8;color:#ff4466;font-weight:500}
-.hide-btn{margin-top:20px;padding:14px 40px;border-radius:12px;border:2px solid rgba(255,99,170,.3);background:rgba(255,99,170,.08);color:#ff63aa;font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
+.kw-word{font-family:'Black Han Sans',sans-serif;font-size:clamp(1.7rem,7vw,2.4rem);line-height:1.2;margin-bottom:10px;}
+.kw-desc{font-size:.8rem;color:#889;line-height:1.75;border-top:1px solid rgba(255,255,255,.05);padding-top:10px;}
+.liar-msg{font-size:.92rem;line-height:1.8;color:#ff4466;font-weight:500}
+.hide-btn{margin-top:18px;padding:13px 38px;border-radius:12px;border:2px solid rgba(255,99,170,.3);background:rgba(255,99,170,.08);color:#ff63aa;font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
 .hide-btn:hover{background:rgba(255,99,170,.15)}
 .pass-msg{animation:pop .35s cubic-bezier(.34,1.56,.64,1);text-align:center}
-.pass-msg .ico{font-size:2.8rem;margin-bottom:12px}
-.pass-msg p{color:#889;margin-bottom:18px;font-size:.95rem;line-height:1.6}
-.prog-wrap{width:100%;height:5px;background:rgba(255,255,255,.05);border-radius:3px;margin-bottom:20px;overflow:hidden}
+.pass-msg .ico{font-size:2.6rem;margin-bottom:10px}
+.pass-msg p{color:#889;margin-bottom:16px;font-size:.92rem;line-height:1.6}
+.prog-wrap{width:100%;height:5px;background:rgba(255,255,255,.05);border-radius:3px;margin-bottom:18px;overflow:hidden}
 .prog-fill{height:100%;border-radius:3px;background:#63ffbe;transition:width .4s}
-
-/* ── 타이머 ── */
 .timer-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.timer-ring{width:240px;height:240px;position:relative;margin-bottom:28px}
+.timer-ring{width:220px;height:220px;position:relative;margin-bottom:24px}
 .timer-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
 .timer-digits{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.timer-num{font-family:'Black Han Sans',sans-serif;font-size:clamp(2.8rem,11vw,4rem)}
-.timer-sub{font-size:.8rem;color:#667;margin-top:2px}
-.timer-notice{font-size:.88rem;color:#667;margin-bottom:16px;line-height:1.5}
-
-/* ── 투표 ── */
-.vote-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin:18px 0}
-.vote-btn{padding:16px 8px;border-radius:14px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#aab;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;}
+.timer-num{font-family:'Black Han Sans',sans-serif;font-size:clamp(2.6rem,10vw,3.8rem)}
+.timer-sub{font-size:.78rem;color:#667;margin-top:2px}
+.timer-notice{font-size:.85rem;color:#667;margin-bottom:14px;line-height:1.5}
+.vote-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:9px;margin:16px 0}
+.vote-btn{padding:14px 8px;border-radius:14px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#aab;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;line-height:1.4;}
 .vote-btn:hover{border-color:rgba(255,68,102,.35);background:rgba(255,68,102,.06)}
 .vote-btn.picked{border-color:#ff4466;background:rgba(255,68,102,.12);color:#ff4466;box-shadow:0 0 18px rgba(255,68,102,.15)}
-
-/* ── 드럼롤 ── */
+.vote-btn .vname{font-size:.72rem;font-weight:400;display:block;color:#778;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .drumroll-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:pulse .45s ease-in-out infinite alternate;}
 .drumroll-txt{font-family:'Black Han Sans',sans-serif;font-size:clamp(2rem,8vw,3rem);background:linear-gradient(135deg,#ffaa33,#ff4466);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-
-/* ── 정체 공개 ── */
 .reveal-identity{text-align:center;animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
-.id-badge{display:inline-block;padding:11px 28px;border-radius:100px;font-family:'Black Han Sans',sans-serif;font-size:clamp(1.1rem,4.5vw,1.6rem);margin:14px 0 20px;}
+.id-badge{display:inline-block;padding:10px 26px;border-radius:100px;font-family:'Black Han Sans',sans-serif;font-size:clamp(1rem,4vw,1.5rem);margin:12px 0 18px;}
 .id-badge.bad{background:rgba(255,68,102,.12);border:2px solid rgba(255,68,102,.35);color:#ff4466}
 .id-badge.good{background:rgba(99,255,190,.12);border:2px solid rgba(99,255,190,.35);color:#63ffbe}
-.id-info{font-size:.85rem;color:#778;margin-bottom:20px;line-height:1.7}
+.id-info{font-size:.83rem;color:#778;margin-bottom:16px;line-height:1.7}
 .id-info strong{color:#63ffbe}
 .id-info .hl{color:#ffaa33}
-
-/* ── 최후의 반론 ── */
 .defense-wrap{width:100%;animation:pop .4s cubic-bezier(.34,1.56,.64,1);}
-.defense-input-area{background:rgba(255,255,255,.03);border:2px solid rgba(99,170,255,.25);border-radius:16px;padding:20px;margin:16px 0;}
-.defense-input{width:100%;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:16px;color:#e0e0ec;font-size:1.15rem;font-weight:700;font-family:'Noto Sans KR',sans-serif;text-align:center;outline:none;transition:border-color .2s;-webkit-user-select:auto;user-select:auto;}
+.defense-input-area{background:rgba(255,255,255,.03);border:2px solid rgba(99,170,255,.25);border-radius:16px;padding:18px;margin:14px 0;}
+.defense-input{width:100%;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:15px;color:#e0e0ec;font-size:1.1rem;font-weight:700;font-family:'Noto Sans KR',sans-serif;text-align:center;outline:none;transition:border-color .2s;-webkit-user-select:auto;user-select:auto;}
 .defense-input:focus{border-color:#63aaff;background:rgba(99,170,255,.07);}
-.defense-input::placeholder{color:#445;font-weight:400;font-size:.95rem;}
-.defense-hint{font-size:.75rem;color:#556;text-align:center;margin-top:10px;line-height:1.6;}
-.btn-submit{width:100%;padding:17px;border-radius:14px;border:none;font-size:1.05rem;font-weight:800;cursor:pointer;font-family:'Noto Sans KR',sans-serif;background:linear-gradient(135deg,#ff63aa,#ff4466);color:#fff;box-shadow:0 4px 28px rgba(255,68,102,.25);transition:all .25s;margin-top:4px;}
+.defense-input::placeholder{color:#445;font-weight:400;font-size:.9rem;}
+.defense-hint{font-size:.73rem;color:#556;text-align:center;margin-top:8px;line-height:1.6;}
+.btn-submit{width:100%;padding:16px;border-radius:14px;border:none;font-size:1.05rem;font-weight:800;cursor:pointer;font-family:'Noto Sans KR',sans-serif;background:linear-gradient(135deg,#ff63aa,#ff4466);color:#fff;box-shadow:0 4px 28px rgba(255,68,102,.25);transition:all .25s;margin-top:4px;}
 .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(255,68,102,.35)}
-.btn-submit:active{transform:translateY(0)}
 .btn-submit:disabled{opacity:.4;cursor:not-allowed;transform:none}
-
-/* ── 최종 ── */
 .final-wrap{text-align:center;animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
-.final-ico{font-size:3.5rem;margin-bottom:12px}
-.final-title{font-family:'Black Han Sans',sans-serif;font-size:clamp(1.4rem,5.5vw,2rem);margin-bottom:6px;line-height:1.4;}
-.final-sub{font-size:.85rem;color:#778;margin-bottom:22px;line-height:1.7}
-
-/* ── 인트로 ── */
-.intro-logo-bg{width:84px;height:84px;border-radius:22px;background:linear-gradient(135deg,rgba(99,255,190,.15),rgba(99,170,255,.1));border:2px solid rgba(99,255,190,.25);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:2.4rem;}
-.intro-desc-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:18px 16px;text-align:left;margin-bottom:14px;width:100%;}
-.intro-desc-card h3{font-size:.65rem;font-weight:800;letter-spacing:2.5px;color:#63ffbe;margin-bottom:12px}
-.intro-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;}
+.final-ico{font-size:3.2rem;margin-bottom:10px}
+.final-title{font-family:'Black Han Sans',sans-serif;font-size:clamp(1.3rem,5vw,1.9rem);margin-bottom:6px;line-height:1.4;}
+.final-sub{font-size:.83rem;color:#778;margin-bottom:18px;line-height:1.7}
+.name-input-list{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+.name-row{display:flex;align-items:center;gap:8px;}
+.name-idx{width:28px;height:28px;border-radius:50%;background:rgba(99,255,190,.1);border:1px solid rgba(99,255,190,.2);color:#63ffbe;font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.name-input{flex:1;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 13px;color:#e0e0ec;font-size:.92rem;font-weight:600;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;-webkit-user-select:auto;user-select:auto;}
+.name-input:focus{border-color:#63ffbe;background:rgba(99,255,190,.05);}
+.name-input::placeholder{color:#445;font-weight:400;}
+.score-modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;}
+.score-modal-overlay.open{display:flex}
+.score-sheet{width:100%;max-width:500px;max-height:90vh;background:#0d0d1a;border-radius:24px 24px 0 0;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;animation:sheetUp .35s cubic-bezier(.34,1.2,.64,1);}
+.score-handle{width:40px;height:4px;background:rgba(255,255,255,.12);border-radius:2px;margin:12px auto 0;}
+.score-header{padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06);}
+.score-title{font-family:'Black Han Sans',sans-serif;font-size:1.1rem;color:#e0e0ec}
+.score-close{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#889;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.score-body{flex:1;overflow-y:auto;padding:14px 16px 24px;-webkit-overflow-scrolling:touch;}
+.score-round-badge{font-size:.65rem;font-weight:800;letter-spacing:2px;color:#63aaff;margin-bottom:10px;}
+.score-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);margin-bottom:7px;transition:all .25s;}
+.score-row.highlight{border-color:rgba(99,255,190,.3);background:rgba(99,255,190,.05);}
+.score-rank{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;flex-shrink:0;}
+.rank-1{background:rgba(255,215,0,.15);color:#ffd700;border:1px solid rgba(255,215,0,.3)}
+.rank-2{background:rgba(192,192,192,.12);color:#c0c0c0;border:1px solid rgba(192,192,192,.25)}
+.rank-3{background:rgba(205,127,50,.12);color:#cd7f32;border:1px solid rgba(205,127,50,.25)}
+.rank-other{background:rgba(255,255,255,.05);color:#667;border:1px solid rgba(255,255,255,.08)}
+.score-name{flex:1;font-size:.95rem;font-weight:700;color:#d0d0e0}
+.score-pts{font-family:'Black Han Sans',sans-serif;font-size:1.3rem;color:#63ffbe}
+.score-pts-unit{font-size:.7rem;color:#556;margin-left:2px}
+.score-delta{font-size:.75rem;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:4px;}
+.delta-pos{background:rgba(99,255,190,.12);color:#63ffbe;border:1px solid rgba(99,255,190,.25)}
+.delta-neg{background:rgba(255,68,102,.1);color:#ff4466;border:1px solid rgba(255,68,102,.2)}
+.score-reset-btn{width:100%;padding:13px;border-radius:12px;border:2px solid rgba(255,68,102,.2);background:rgba(255,68,102,.06);color:#ff4466;font-size:.85rem;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;margin-top:14px;transition:all .2s;}
+.score-reset-btn:hover{background:rgba(255,68,102,.12)}
+.intro-logo-bg{width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,rgba(99,255,190,.15),rgba(99,170,255,.1));border:2px solid rgba(99,255,190,.25);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:2.2rem;}
+.intro-desc-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:16px;text-align:left;margin-bottom:12px;width:100%;}
+.intro-desc-card h3{font-size:.65rem;font-weight:800;letter-spacing:2.5px;color:#63ffbe;margin-bottom:10px}
+.intro-step{display:flex;gap:9px;align-items:flex-start;margin-bottom:8px;}
 .intro-step:last-child{margin-bottom:0}
-.step-num{min-width:24px;height:24px;border-radius:50%;background:rgba(99,255,190,.12);border:1px solid rgba(99,255,190,.3);color:#63ffbe;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px;flex-shrink:0;}
-.step-txt{font-size:.82rem;color:#9aa;line-height:1.6}
+.step-num{min-width:22px;height:22px;border-radius:50%;background:rgba(99,255,190,.12);border:1px solid rgba(99,255,190,.3);color:#63ffbe;font-size:.68rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px;flex-shrink:0;}
+.step-txt{font-size:.8rem;color:#9aa;line-height:1.6}
 .step-txt strong{color:#e0e0ec}
-
-/* ── 제작자 푸터 ── */
-.footer-bar{width:100%;padding:12px 0 18px;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;gap:8px;}
-.footer-name{font-size:.72rem;color:#556;text-align:center;line-height:1.7}
+.footer-bar{width:100%;padding:10px 0 16px;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;gap:7px;}
+.footer-name{font-size:.7rem;color:#556;text-align:center;line-height:1.7}
 .footer-name span{color:#778;font-weight:700}
-.footer-link{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;border-radius:100px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#778;font-size:.75rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;}
+.footer-link{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#778;font-size:.73rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;}
 .footer-link:hover{border-color:rgba(255,99,170,.35);color:#ff63aa;background:rgba(255,99,170,.07);}
-.footer-link svg{width:13px;height:13px;fill:currentColor}
-
-/* ── 카테고리 모드 버튼 ── */
-.cat-mode-btn{flex:1;padding:12px 8px;border-radius:12px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#aab;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;line-height:1.5;font-family:'Noto Sans KR',sans-serif;}
+.footer-link svg{width:12px;height:12px;fill:currentColor}
+.cat-mode-btn{flex:1;padding:11px 8px;border-radius:12px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#aab;font-size:.76rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;line-height:1.5;font-family:'Noto Sans KR',sans-serif;}
 .cat-mode-btn:hover{border-color:rgba(99,170,255,.3)}
 .cat-mode-btn.on{border-color:#63aaff;background:rgba(99,170,255,.1);color:#63aaff}
-.cat-select-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
-.cat-sel-btn{padding:7px 12px;border-radius:10px;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#889;font-size:.75rem;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.cat-select-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.cat-sel-btn{padding:6px 11px;border-radius:10px;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#889;font-size:.73rem;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;display:flex;align-items:center;gap:4px;}
 .cat-sel-btn.on{border-color:#63aaff;background:rgba(99,170,255,.12);color:#63aaff;}
-.cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-
-/* ── 키워드 모달 ── */
+.cat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;}
 .modal-overlay.open{display:flex}
 .modal-sheet{width:100%;max-width:500px;max-height:88vh;background:#0d0d1a;border-radius:24px 24px 0 0;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;animation:sheetUp .35s cubic-bezier(.34,1.2,.64,1);}
@@ -145,72 +151,81 @@ body{font-family:'Noto Sans KR',sans-serif;background:#06060f;color:#e0e0ec;-web
 .modal-close{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#889;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .modal-filter{padding:10px 16px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.04);}
 .modal-filter::-webkit-scrollbar{display:none}
-.cat-chip{white-space:nowrap;padding:6px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#889;font-size:.75rem;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
+.cat-chip{white-space:nowrap;padding:5px 12px;border-radius:100px;border:1.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#889;font-size:.73rem;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
 .cat-chip.on{border-color:#63ffbe;background:rgba(99,255,190,.1);color:#63ffbe;}
 .modal-body{flex:1;overflow-y:auto;padding:10px 16px 20px;-webkit-overflow-scrolling:touch;}
-.kw-list-item{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);margin-bottom:8px;}
-.kw-list-top{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
-.kw-list-cat{font-size:.6rem;font-weight:800;letter-spacing:1.5px;padding:2px 7px;border-radius:100px;}
-.kw-list-word{font-family:'Black Han Sans',sans-serif;font-size:1rem;color:#e0e0ec}
-.kw-list-desc{font-size:.75rem;color:#778;line-height:1.65}
-
-/* ── 애니 ── */
+.kw-list-item{padding:11px 13px;border-radius:12px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);margin-bottom:7px;}
+.kw-list-top{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.kw-list-cat{font-size:.58rem;font-weight:800;letter-spacing:1.5px;padding:2px 6px;border-radius:100px;}
+.kw-list-word{font-family:'Black Han Sans',sans-serif;font-size:.95rem;color:#e0e0ec}
+.kw-list-desc{font-size:.73rem;color:#778;line-height:1.65}
+.score-fab{position:fixed;top:16px;right:16px;z-index:50;width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(99,255,190,.3);background:rgba(99,255,190,.08);color:#63ffbe;font-size:1.1rem;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(99,255,190,.15);transition:all .2s;}
+.score-fab.visible{display:flex}
+.score-fab:hover{background:rgba(99,255,190,.15)}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 @keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
 @keyframes pulse{from{transform:scale(1)}to{transform:scale(1.04)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scoreIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
 </style>
 </head>
 <body>
 <div class="bg-glow"></div>
 <div class="noise"></div>
+<button class="score-fab" id="scoreFab" onclick="openScoreModal()" title="점수판">🏆</button>
 
-<!-- ══ 인트로 ══ -->
+<!-- ══════════ 인트로 ══════════ -->
 <div id="s-intro" class="screen active" style="justify-content:space-between;padding-bottom:0">
-  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:440px;padding:16px 0 8px">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:440px;padding:14px 0 8px">
     <div style="animation:fadeUp .5s ease both">
       <div class="intro-logo-bg">🧪</div>
-      <div class="title">핵꿀잼폭발 중2 지권의 변화 라이어 게임</div>
+      <div class="title">과학 라이어 게임</div>
       <div class="subtitle">중2 지구과학 · 지구계와 암석</div>
     </div>
     <div class="intro-desc-card" style="animation:fadeUp .5s .08s ease both">
       <h3>🎮 게임 방법</h3>
-      <div class="intro-step">
-        <div class="step-num">1</div>
-        <div class="step-txt">모든 플레이어가 순서대로 카드를 확인합니다. 한 명만 <strong>라이어</strong>로 지정됩니다.</div>
-      </div>
-      <div class="intro-step">
-        <div class="step-num">2</div>
-        <div class="step-txt">타이머 동안 돌아가며 제시어에 대해 설명합니다. <strong>라이어는 들키지 않게</strong> 살아남아야 해요!</div>
-      </div>
-      <div class="intro-step">
-        <div class="step-num">3</div>
-        <div class="step-txt">토론 후 <strong>가장 수상한 사람</strong>을 손가락으로 지목합니다.</div>
-      </div>
-      <div class="intro-step">
-        <div class="step-num">4</div>
-        <div class="step-txt">라이어가 지목되면 <strong>최후의 반론</strong>! 제시어를 맞히면 역전승 🎉</div>
-      </div>
-      <div class="intro-step">
-        <div class="step-num" style="background:rgba(255,170,51,.12);border-color:rgba(255,170,51,.3);color:#ffaa33">💡</div>
-        <div class="step-txt"><strong>바보 라이어 모드</strong>: 라이어가 비슷하지만 다른 제시어를 받아 훨씬 헷갈립니다!</div>
-      </div>
+      <div class="intro-step"><div class="step-num">1</div><div class="step-txt">모든 플레이어가 순서대로 카드를 확인합니다. 한 명만 <strong>라이어</strong>로 지정됩니다.</div></div>
+      <div class="intro-step"><div class="step-num">2</div><div class="step-txt">타이머 동안 돌아가며 제시어에 대해 설명합니다. <strong>라이어는 들키지 않게</strong> 살아남아야 해요!</div></div>
+      <div class="intro-step"><div class="step-num">3</div><div class="step-txt">토론 후 <strong>가장 수상한 사람</strong>을 손가락으로 지목합니다.</div></div>
+      <div class="intro-step"><div class="step-num">4</div><div class="step-txt">라이어가 지목되면 <strong>제시어 맞히기</strong> 기회! 과학자들의 제시어를 정확히 입력하면 역전승 🎉</div></div>
+      <div class="intro-step"><div class="step-num" style="background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.3);color:#ffd700">🏆</div><div class="step-txt"><strong>점수</strong>: 라이어가 안 잡히거나 제시어를 맞히면 라이어 +2점 / 라이어가 잡히고 제시어도 못 맞히면 과학자 전원 +1점</div></div>
+      <div class="intro-step"><div class="step-num" style="background:rgba(255,170,51,.12);border-color:rgba(255,170,51,.3);color:#ffaa33">💡</div><div class="step-txt"><strong>바보 라이어 모드</strong>: 라이어가 비슷하지만 다른 제시어를 받아 훨씬 헷갈립니다!</div></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:8px;width:100%;animation:fadeUp .5s .16s ease both">
-      <button class="btn-go" onclick="show('s-setup');initSetup()">게임 시작하기 🚀</button>
+      <button class="btn-go" onclick="goToSetup()">게임 시작하기 🚀</button>
       <button class="btn-ghost" onclick="openKeywordModal()">📚 전체 키워드 목록 보기</button>
     </div>
   </div>
   <div class="footer-bar" style="width:100%;max-width:440px;animation:fadeUp .5s .22s ease both">
     <div class="footer-name"><span>제작: 조승재(과학이조선생)</span> · 문의: chuseonjae@outlook.kr</div>
     <a class="footer-link" href="https://www.instagram.com/science_is_jo?igsh=MTU2ZDFlZmx3aGlnNg%3D%3D&utm_source=qr" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
       인스타그램 @science_is_jo
     </a>
   </div>
 </div>
 
-<!-- ══ 세팅 ══ -->
+<!-- ══════════ 이름 입력 ══════════ -->
+<div id="s-names" class="screen">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%">
+<div class="inner">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <button onclick="show('s-setup')" style="background:none;border:none;color:#667;font-size:.82rem;cursor:pointer;padding:4px 0;font-family:'Noto Sans KR',sans-serif;">← 설정으로</button>
+    <button onclick="openKeywordModal()" style="background:none;border:none;color:#63ffbe;font-size:.82rem;cursor:pointer;padding:4px 0;font-family:'Noto Sans KR',sans-serif;font-weight:700;">📚 키워드</button>
+  </div>
+  <div class="title" style="font-size:clamp(1.4rem,5vw,2rem);margin-bottom:4px">이름 입력</div>
+  <div class="subtitle" style="margin-bottom:14px">모둠원 이름을 입력해 주세요</div>
+  <div class="card">
+    <div class="card-label">플레이어 이름</div>
+    <div class="name-input-list" id="nameInputList"></div>
+  </div>
+  <button class="btn-go" onclick="confirmNames()">확인 후 게임 시작 ▶</button>
+  <button class="btn-ghost" onclick="skipNames()">이름 없이 시작 (번호만 사용)</button>
+</div>
+</div>
+</div>
+
+<!-- ══════════ 세팅 ══════════ -->
 <div id="s-setup" class="screen">
 <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%">
 <div class="inner">
@@ -226,8 +241,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:#06060f;color:#e0e0ec;-web
     <div class="btn-row" id="playerBtns"></div>
     <div class="field-label">게임 모드</div>
     <div class="btn-row">
-      <button class="mode-btn on" data-mode="normal" onclick="pickMode('normal')">🕵️ 일반 라이어<br><span style="font-size:.7rem;opacity:.65">제시어를 전혀 모른다</span></button>
-      <button class="mode-btn" data-mode="fool" onclick="pickMode('fool')">🤡 바보 라이어<br><span style="font-size:.7rem;opacity:.65">비슷한 제시어를 받는다</span></button>
+      <button class="mode-btn on" data-mode="normal" onclick="pickMode('normal')">🕵️ 일반 라이어<br><span style="font-size:.68rem;opacity:.65">제시어를 전혀 모른다</span></button>
+      <button class="mode-btn" data-mode="fool" onclick="pickMode('fool')">🤡 바보 라이어<br><span style="font-size:.68rem;opacity:.65">비슷한 제시어를 받는다</span></button>
     </div>
     <div class="field-label">토론 시간</div>
     <div class="btn-row" id="timerBtns"></div>
@@ -235,40 +250,40 @@ body{font-family:'Noto Sans KR',sans-serif;background:#06060f;color:#e0e0ec;-web
   <div class="card">
     <div class="card-label">카테고리 설정</div>
     <div class="field-label">출제 범위</div>
-    <div class="btn-row" style="margin-bottom:10px">
-      <button class="cat-mode-btn on" data-cmode="all" onclick="pickCatMode('all')">🌐 전체 카테고리<br><span style="font-size:.7rem;opacity:.65">모든 주제에서 출제</span></button>
-      <button class="cat-mode-btn" data-cmode="pick" onclick="pickCatMode('pick')">🎯 카테고리 선택<br><span style="font-size:.7rem;opacity:.65">원하는 주제만 선택</span></button>
+    <div class="btn-row" style="margin-bottom:8px">
+      <button class="cat-mode-btn on" data-cmode="all" onclick="pickCatMode('all')">🌐 전체 카테고리<br><span style="font-size:.68rem;opacity:.65">모든 주제에서 출제</span></button>
+      <button class="cat-mode-btn" data-cmode="pick" onclick="pickCatMode('pick')">🎯 카테고리 선택<br><span style="font-size:.68rem;opacity:.65">원하는 주제만 선택</span></button>
     </div>
     <div id="catSelectWrap" style="display:none">
       <div class="field-label">출제할 카테고리 <span id="catCount" style="color:#63aaff;font-weight:700"></span></div>
       <div class="cat-select-grid" id="catSelectGrid"></div>
     </div>
   </div>
-  <button class="btn-go" onclick="startGame()">게임 시작하기</button>
+  <button class="btn-go" onclick="goToNames()">다음: 이름 입력 →</button>
 </div>
 </div>
 <div class="footer-bar" style="width:100%;max-width:440px">
   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center">
     <div class="footer-name"><span>제작: 조승재(과학이조선생)</span> · chuseonjae@outlook.kr</div>
     <a class="footer-link" style="font-size:.7rem" href="https://www.instagram.com/science_is_jo?igsh=MTU2ZDFlZmx3aGlnNg%3D%3D&utm_source=qr" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
       인스타
     </a>
   </div>
 </div>
 </div>
 
-<!-- ══ 카드 확인 ══ -->
+<!-- ══════════ 카드 확인 ══════════ -->
 <div id="s-reveal" class="screen">
 <div style="width:100%;max-width:440px"><div class="prog-wrap"><div class="prog-fill" id="progFill"></div></div></div>
 <div class="reveal-center" style="width:100%;max-width:440px">
   <div id="rv-wait" style="display:flex;flex-direction:column;align-items:center">
-    <div class="player-tag"><span style="font-size:1.1rem">👤</span> <span id="rvPlayerNum"></span>번 플레이어</div>
+    <div class="player-tag"><span style="font-size:1rem">👤</span> <span id="rvPlayerLabel"></span></div>
     <div class="reveal-msg">준비가 되면 아래 버튼을<br><strong>터치해서 확인하세요</strong></div>
     <div class="tap-circle" onclick="showCard()"><div class="ico">👆</div><div class="lbl">터치해서 확인</div></div>
   </div>
   <div id="rv-show" style="display:none;flex-direction:column;align-items:center">
-    <div class="player-tag"><span style="font-size:1.1rem">👤</span> <span id="rvPlayerNum2"></span>번 플레이어</div>
+    <div class="player-tag"><span style="font-size:1rem">👤</span> <span id="rvPlayerLabel2"></span></div>
     <div id="rvCardArea"></div>
     <button class="hide-btn" onclick="hideCard()">확인 완료 ✓</button>
   </div>
@@ -282,48 +297,48 @@ body{font-family:'Noto Sans KR',sans-serif;background:#06060f;color:#e0e0ec;-web
 </div>
 </div>
 
-<!-- ══ 타이머 ══ -->
+<!-- ══════════ 타이머 ══════════ -->
 <div id="s-timer" class="screen">
 <div class="timer-center" style="width:100%;max-width:440px">
   <div class="timer-notice">📱 기기를 책상 가운데 내려놓으세요!</div>
   <div class="timer-ring">
-    <svg width="240" height="240" viewBox="0 0 240 240">
-      <circle cx="120" cy="120" r="108" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="7"/>
-      <circle id="timerArc" cx="120" cy="120" r="108" fill="none" stroke="#63ffbe" stroke-width="7" stroke-linecap="round" stroke-dasharray="678.58" stroke-dashoffset="0"/>
+    <svg width="220" height="220" viewBox="0 0 220 220">
+      <circle cx="110" cy="110" r="98" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="7"/>
+      <circle id="timerArc" cx="110" cy="110" r="98" fill="none" stroke="#63ffbe" stroke-width="7" stroke-linecap="round" stroke-dasharray="615.75" stroke-dashoffset="0"/>
     </svg>
     <div class="timer-digits">
       <div class="timer-num" id="timerNum">3:00</div>
       <div class="timer-sub">남은 시간</div>
     </div>
   </div>
-  <p style="color:#556;font-size:.82rem;margin-bottom:20px">돌아가며 제시어에 대해 설명하세요!</p>
-  <button class="btn-ghost" onclick="endTimerEarly()" style="max-width:300px">토론 종료</button>
+  <p style="color:#556;font-size:.8rem;margin-bottom:18px">돌아가며 제시어에 대해 설명하세요!</p>
+  <button class="btn-ghost" onclick="endTimerEarly()" style="max-width:280px">토론 종료</button>
 </div>
 </div>
 
-<!-- ══ 시간종료 ══ -->
+<!-- ══════════ 시간종료 ══════════ -->
 <div id="s-timeup" class="screen">
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;max-width:440px">
-  <div style="font-size:3.5rem;margin-bottom:12px;animation:shake .35s infinite">⏰</div>
-  <div class="title" style="font-size:clamp(1.4rem,5vw,1.9rem);margin-bottom:12px">시간 종료!</div>
-  <p style="color:#889;font-size:.95rem;line-height:1.7;margin-bottom:8px">하나, 둘, 셋 하면<br>의심되는 사람을<br><strong style="color:#ff4466">손가락으로 가리키세요!</strong></p>
-  <button class="btn-go" style="max-width:320px;margin-top:16px" onclick="goVote()">지목 결과 입력하기</button>
+  <div style="font-size:3.2rem;margin-bottom:10px;animation:shake .35s infinite">⏰</div>
+  <div class="title" style="font-size:clamp(1.3rem,5vw,1.8rem);margin-bottom:10px">시간 종료!</div>
+  <p style="color:#889;font-size:.9rem;line-height:1.7;margin-bottom:6px">하나, 둘, 셋 하면<br>의심되는 사람을<br><strong style="color:#ff4466">손가락으로 가리키세요!</strong></p>
+  <button class="btn-go" style="max-width:300px;margin-top:14px" onclick="goVote()">지목 결과 입력하기</button>
 </div>
 </div>
 
-<!-- ══ 투표 ══ -->
+<!-- ══════════ 투표 ══════════ -->
 <div id="s-vote" class="screen">
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:440px">
   <div style="text-align:center;margin-bottom:4px">
-    <div style="font-size:2.4rem;margin-bottom:6px">👉</div>
-    <div class="title" style="font-size:clamp(1.2rem,5vw,1.6rem);margin-bottom:6px">가장 많이 지목된 사람은?</div>
-    <p style="color:#778;font-size:.82rem">해당 플레이어 번호를 선택하세요</p>
+    <div style="font-size:2.2rem;margin-bottom:6px">👉</div>
+    <div class="title" style="font-size:clamp(1.1rem,4.5vw,1.5rem);margin-bottom:4px">가장 많이 지목된 사람은?</div>
+    <p style="color:#778;font-size:.8rem">해당 플레이어를 선택하세요</p>
   </div>
   <div class="vote-grid" id="voteGrid"></div>
 </div>
 </div>
 
-<!-- ══ 드럼롤 ══ -->
+<!-- ══════════ 드럼롤 ══════════ -->
 <div id="s-drum" class="screen">
 <div class="drumroll-wrap">
   <div class="drumroll-txt">두구두구...</div>
@@ -331,40 +346,40 @@ body{font-family:'Noto Sans KR',sans-serif;background:#06060f;color:#e0e0ec;-web
 </div>
 </div>
 
-<!-- ══ 정체 공개 ══ -->
+<!-- ══════════ 정체 공개 ══════════ -->
 <div id="s-identity" class="screen">
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:440px">
   <div class="reveal-identity" id="identityArea"></div>
 </div>
 </div>
 
-<!-- ══ 최후의 반론 ══ -->
+<!-- ══════════ 최후의 반론 (제시어 맞히기) ══════════ -->
 <div id="s-defense" class="screen">
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:440px">
   <div style="text-align:center;margin-bottom:10px">
-    <div style="font-size:2.4rem;margin-bottom:6px">⚖️</div>
-    <div class="title" style="font-size:clamp(1.2rem,5vw,1.6rem);margin-bottom:4px">최후의 반론</div>
-    <p style="color:#778;font-size:.82rem;line-height:1.6">과학자들의 제시어를 맞히면<br><strong style="color:#ff4466">역전승!</strong></p>
+    <div style="font-size:2.2rem;margin-bottom:6px">🎯</div>
+    <div class="title" style="font-size:clamp(1.1rem,4.5vw,1.5rem);margin-bottom:4px">제시어 맞히기</div>
+    <p style="color:#778;font-size:.8rem;line-height:1.6">라이어의 마지막 기회!<br>과학자들의 제시어를 정확히 맞히면 <strong style="color:#ff4466">역전승!</strong></p>
   </div>
   <div class="defense-wrap">
     <div class="defense-input-area">
-      <div class="card-label" style="text-align:center;margin-bottom:16px">제시어가 무엇인지 직접 써보세요</div>
-      <input type="text" id="defenseInput" class="defense-input" placeholder="정답을 입력하세요" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="20" oninput="onDefenseInput()" onkeydown="onDefenseKey(event)"/>
-      <div class="defense-hint">힌트 없이 직접 써야 합니다!<br>정확한 용어로 입력하세요.</div>
+      <div class="card-label" style="text-align:center;margin-bottom:14px">과학자들의 제시어가 무엇이었는지 입력하세요</div>
+      <input type="text" id="defenseInput" class="defense-input" placeholder="제시어를 입력하세요" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="20" oninput="onDefenseInput()" onkeydown="onDefenseKey(event)"/>
+      <div class="defense-hint">토론에서 들은 힌트를 바탕으로 추리하세요!<br>정확한 용어로 입력해야 합니다.</div>
     </div>
     <button class="btn-submit" id="defSubmitBtn" onclick="submitDefense()" disabled>정답 제출하기 🎯</button>
   </div>
 </div>
 </div>
 
-<!-- ══ 최종 결과 ══ -->
+<!-- ══════════ 최종 결과 ══════════ -->
 <div id="s-final" class="screen">
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:440px">
   <div class="final-wrap" id="finalArea"></div>
 </div>
 </div>
 
-<!-- ══ 키워드 모달 ══ -->
+<!-- ══════════ 키워드 모달 ══════════ -->
 <div class="modal-overlay" id="kwModal" onclick="closeModalOutside(event)">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -377,10 +392,22 @@ body{font-family:'Noto Sans KR',sans-serif;background:#06060f;color:#e0e0ec;-web
   </div>
 </div>
 
+<!-- ══════════ 점수판 모달 ══════════ -->
+<div class="score-modal-overlay" id="scoreModal" onclick="closeScoreModalOutside(event)">
+  <div class="score-sheet">
+    <div class="score-handle"></div>
+    <div class="score-header">
+      <div class="score-title">🏆 점수판</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span id="scoreRoundBadge" style="font-size:.7rem;font-weight:800;letter-spacing:1.5px;color:#63aaff"></span>
+        <button class="score-close" onclick="closeScoreModal()">✕</button>
+      </div>
+    </div>
+    <div class="score-body" id="scoreBody"></div>
+  </div>
+</div>
+
 <script>
-/* ══════════════════════════════════════
-   카드 데이터
-══════════════════════════════════════ */
 const CARDS=[
   {k:"지구계",cat:"지구계",d:"지구를 이루는 여러 요소가 서로 영향을 주고받는 하나의 계(系)",fk:"생물권",fd:"지구에 사는 모든 생물로, 지권·수권·기권에 걸쳐 분포한다"},
   {k:"지권",cat:"지구계",d:"지구의 표면과 내부를 이루는 영역으로, 지각·맨틀·외핵·내핵으로 구성된다",fk:"수권",fd:"지구에 있는 모든 물로, 바다·빙하·지하수·강·호수 등이 포함된다"},
@@ -423,25 +450,28 @@ const CARDS=[
   {k:"암석의 순환",cat:"암석 순환",d:"화성암·퇴적암·변성암이 비·바람·열·압력 등에 의해 오랜 시간 다른 암석으로 끊임없이 변하는 과정이다",fk:"풍화",fd:"암석이 물·공기·생물 등의 영향으로 오랜 시간에 걸쳐 잘게 부서지고 성분이 변하는 현상이다"},
   {k:"풍화",cat:"암석 순환",d:"암석이 물·공기·생물 등의 영향으로 오랜 시간에 걸쳐 잘게 부서지고 성분이 변하는 현상이다",fk:"암석의 순환",fd:"화성암·퇴적암·변성암이 오랜 시간 다른 암석으로 끊임없이 변하는 과정이다"},
 ];
-
 const CAT_COLOR={"지구계":"#63ffbe","지구 내부":"#63aaff","광물":"#ffaa33","화성암":"#ff7c63","퇴적암":"#b8a0ff","변성암":"#ff63aa","암석 순환":"#63e8ff"};
 
-/* ══════════════════════════════════════
-   게임 상태
-══════════════════════════════════════ */
-let G={players:5,mode:'normal',timerMin:3,card:null,liarIdx:-1,curPlayer:0,timeLeft:0,timerID:null,totalTime:0,votedPlayer:-1,catMode:'all',selectedCats:[]};
+let G={
+  players:5, mode:'normal', timerMin:3,
+  card:null, liarIdx:-1, curPlayer:0,
+  timeLeft:0, timerID:null, totalTime:0,
+  votedPlayer:-1,
+  catMode:'all', selectedCats:[],
+  names:[], scores:[], roundNum:0,
+  liarHistory:[], lastDeltas:[]
+};
 let modalActiveCat='전체';
 
 function allCats(){return[...new Set(CARDS.map(c=>c.cat))];}
-
-/* ══════════════════════════════════════
-   웹오디오 효과음
-══════════════════════════════════════ */
-let audioCtx=null;
-function getAudio(){
-  if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}}
-  return audioCtx;
+function playerName(i){return G.names[i]&&G.names[i].trim()?G.names[i].trim():`${i+1}번`;}
+function playerLabel(i){
+  let n=playerName(i);
+  return n===(i+1)+'번'?n:`${i+1}번 (${n})`;
 }
+
+let audioCtx=null;
+function getAudio(){if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}}return audioCtx;}
 function beep(freq,dur,vol,type='sine'){
   try{
     let ac=getAudio();if(!ac)return;
@@ -459,15 +489,18 @@ function warnSound(){beep(660,.1,.3,'triangle');setTimeout(()=>beep(990,.1,.3,'t
 function timeupSound(){beep(440,.15,.35,'sawtooth');setTimeout(()=>beep(370,.15,.35,'sawtooth'),200);setTimeout(()=>beep(310,.5,.4,'sawtooth'),400);}
 function urgentBeep(){beep(1047,.055,.3,'square');}
 
-/* ══════════════════════════════════════
-   유틸
-══════════════════════════════════════ */
 function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  let gameScreens=['s-reveal','s-timer','s-timeup','s-vote','s-drum','s-identity','s-defense','s-final'];
+  let fab=document.getElementById('scoreFab');
+  fab.classList.toggle('visible', gameScreens.includes(id) && G.roundNum>0);
+}
 
-/* ══════════════════════════════════════
-   세팅
-══════════════════════════════════════ */
+function goToSetup(){show('s-setup');initSetup();}
+function goToNames(){renderNameInputs();show('s-names');}
+
 function initSetup(){
   let ph=document.getElementById('playerBtns');ph.innerHTML='';
   for(let n=3;n<=10;n++){
@@ -487,10 +520,7 @@ function initSetup(){
   renderCatSelect();
 }
 
-function pickMode(m){
-  G.mode=m;
-  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));
-}
+function pickMode(m){G.mode=m;document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));}
 
 function pickCatMode(m){
   G.catMode=m;
@@ -510,39 +540,75 @@ function renderCatSelect(){
   });
   updateCatCount();
 }
-
 function toggleCat(cat,btn){
   let idx=G.selectedCats.indexOf(cat);
   if(idx===-1){G.selectedCats.push(cat);btn.classList.add('on');}
   else if(G.selectedCats.length>1){G.selectedCats.splice(idx,1);btn.classList.remove('on');}
   updateCatCount();
 }
+function updateCatCount(){let el=document.getElementById('catCount');if(el)el.textContent='('+G.selectedCats.length+'개 선택됨)';}
 
-function updateCatCount(){
-  let el=document.getElementById('catCount');
-  if(el)el.textContent='('+G.selectedCats.length+'개 선택됨)';
+function renderNameInputs(){
+  let list=document.getElementById('nameInputList');list.innerHTML='';
+  for(let i=0;i<G.players;i++){
+    let row=document.createElement('div');row.className='name-row';
+    let idx=document.createElement('div');idx.className='name-idx';idx.textContent=i+1;
+    let inp=document.createElement('input');
+    inp.className='name-input';inp.type='text';
+    inp.placeholder=`${i+1}번 플레이어 이름`;
+    inp.maxLength=8;inp.value=G.names[i]||'';
+    inp.setAttribute('autocomplete','off');inp.setAttribute('autocorrect','off');inp.setAttribute('autocapitalize','off');
+    inp.style.userSelect='auto';inp.style.webkitUserSelect='auto';
+    inp.onkeydown=(e)=>{if(e.key==='Enter'){let next=list.querySelectorAll('.name-input')[i+1];if(next)next.focus();}};
+    row.appendChild(idx);row.appendChild(inp);
+    list.appendChild(row);
+  }
+  while(G.names.length<G.players)G.names.push('');
+  G.names.length=G.players;
 }
 
-/* ══════════════════════════════════════
-   게임 시작
-══════════════════════════════════════ */
+function confirmNames(){
+  let inputs=document.getElementById('nameInputList').querySelectorAll('.name-input');
+  inputs.forEach((inp,i)=>{G.names[i]=inp.value.trim();});
+  if(G.scores.length!==G.players){G.scores=Array(G.players).fill(0);G.roundNum=0;G.liarHistory=[];}
+  startGame();
+}
+
+function skipNames(){
+  G.names=Array(G.players).fill('');
+  if(G.scores.length!==G.players){G.scores=Array(G.players).fill(0);G.roundNum=0;G.liarHistory=[];}
+  startGame();
+}
+
+function pickLiarIdx(){
+  let n=G.players;
+  if(n===1)return 0;
+  let weights=Array(n).fill(1.0);
+  if(G.liarHistory.length>=1){weights[G.liarHistory[G.liarHistory.length-1]]=0.1;}
+  if(G.liarHistory.length>=2){let prev2=G.liarHistory[G.liarHistory.length-2];if(weights[prev2]>0.5)weights[prev2]=0.45;}
+  let total=weights.reduce((a,b)=>a+b,0);
+  let r=Math.random()*total,cum=0;
+  for(let i=0;i<n;i++){cum+=weights[i];if(r<cum)return i;}
+  return n-1;
+}
+
 function startGame(){
   let pool=G.catMode==='pick'?CARDS.filter(c=>G.selectedCats.includes(c.cat)):CARDS;
   if(!pool.length){alert('카테고리를 최소 1개 이상 선택해주세요!');return;}
   G.card=pool[Math.floor(Math.random()*pool.length)];
-  G.liarIdx=Math.floor(Math.random()*G.players);
-  G.curPlayer=0;G.votedPlayer=-1;
+  G.liarIdx=pickLiarIdx();
+  G.liarHistory.push(G.liarIdx);
+  if(G.liarHistory.length>4)G.liarHistory.shift();
+  G.curPlayer=0;G.votedPlayer=-1;G.lastDeltas=Array(G.players).fill(0);
+  G.roundNum++;
   showRevealWait();show('s-reveal');
 }
 
-/* ══════════════════════════════════════
-   카드 확인
-══════════════════════════════════════ */
 function showRevealWait(){
   document.getElementById('rv-wait').style.display='flex';
   document.getElementById('rv-show').style.display='none';
   document.getElementById('rv-pass').style.display='none';
-  document.getElementById('rvPlayerNum').textContent=G.curPlayer+1;
+  document.getElementById('rvPlayerLabel').textContent=playerLabel(G.curPlayer);
   document.getElementById('progFill').style.width=((G.curPlayer+1)/G.players*100)+'%';
 }
 
@@ -550,7 +616,7 @@ function showCard(){
   document.getElementById('rv-wait').style.display='none';
   document.getElementById('rv-show').style.display='flex';
   document.getElementById('rv-pass').style.display='none';
-  document.getElementById('rvPlayerNum2').textContent=G.curPlayer+1;
+  document.getElementById('rvPlayerLabel2').textContent=playerLabel(G.curPlayer);
   let isLiar=G.curPlayer===G.liarIdx;
   let area=document.getElementById('rvCardArea');
   if(isLiar&&G.mode==='normal'){
@@ -567,7 +633,8 @@ function hideCard(){
   document.getElementById('rv-show').style.display='none';
   document.getElementById('rv-pass').style.display='flex';
   let btn=document.getElementById('rvNextBtn');
-  btn.textContent=G.curPlayer+1>=G.players?'모두 확인 완료 → 토론 시작':(G.curPlayer+2)+'번 플레이어에게 넘기기';
+  if(G.curPlayer+1>=G.players){btn.textContent='모두 확인 완료 → 토론 시작';}
+  else{btn.textContent=playerLabel(G.curPlayer+1)+'에게 넘기기';}
 }
 
 function nextPlayer(){
@@ -575,19 +642,12 @@ function nextPlayer(){
   else{G.curPlayer++;showRevealWait();}
 }
 
-/* ══════════════════════════════════════
-   타이머 + 효과음
-══════════════════════════════════════ */
 function startTimer(){
   G.totalTime=G.timerMin*60;G.timeLeft=G.totalTime;
   show('s-timer');updateTimerDisplay();
   G.timerID=setInterval(()=>{
-    G.timeLeft--;
-    updateTimerDisplay();
-    if(G.timeLeft===0){
-      clearInterval(G.timerID);timeupSound();
-      setTimeout(()=>show('s-timeup'),900);return;
-    }
+    G.timeLeft--;updateTimerDisplay();
+    if(G.timeLeft===0){clearInterval(G.timerID);timeupSound();setTimeout(()=>show('s-timeup'),900);return;}
     if(G.timeLeft===30||G.timeLeft===10){warnSound();return;}
     if(G.timeLeft<=5&&G.timeLeft>0){urgentBeep();return;}
     if(G.timeLeft%60===0&&G.timeLeft>0){tickSound();}
@@ -597,27 +657,23 @@ function startTimer(){
 function updateTimerDisplay(){
   let m=Math.floor(G.timeLeft/60),s=G.timeLeft%60;
   document.getElementById('timerNum').textContent=m+':'+String(s).padStart(2,'0');
-  let pct=G.timeLeft/G.totalTime,circ=2*Math.PI*108;
+  let pct=G.timeLeft/G.totalTime,circ=2*Math.PI*98;
   document.getElementById('timerArc').setAttribute('stroke-dashoffset',circ*(1-pct));
   let col=pct>.5?'#63ffbe':pct>.2?'#eab308':'#ff4466';
   document.getElementById('timerArc').setAttribute('stroke',col);
   document.getElementById('timerNum').style.color=col;
 }
 
-function endTimerEarly(){
-  clearInterval(G.timerID);G.timeLeft=0;
-  timeupSound();setTimeout(()=>show('s-timeup'),700);
-}
+function endTimerEarly(){clearInterval(G.timerID);G.timeLeft=0;timeupSound();setTimeout(()=>show('s-timeup'),700);}
 
-/* ══════════════════════════════════════
-   투표
-══════════════════════════════════════ */
 function goVote(){
   show('s-vote');
   let grid=document.getElementById('voteGrid');grid.innerHTML='';
   for(let i=0;i<G.players;i++){
     let b=document.createElement('button');
-    b.className='vote-btn';b.textContent=(i+1)+'번';
+    b.className='vote-btn';
+    let nm=G.names[i]&&G.names[i].trim()?G.names[i].trim():'';
+    b.innerHTML=`<span style="font-size:1rem;font-weight:800">${i+1}번</span>${nm?`<span class="vname">${nm}</span>`:''}`;
     b.onclick=()=>castVote(i);
     grid.appendChild(b);
   }
@@ -625,37 +681,90 @@ function goVote(){
 
 function castVote(idx){G.votedPlayer=idx;show('s-drum');setTimeout(()=>showIdentity(),2500);}
 
-/* ══════════════════════════════════════
-   정체 공개
-══════════════════════════════════════ */
+function awardScores(liarWon){
+  G.lastDeltas=Array(G.players).fill(0);
+  if(liarWon){
+    G.scores[G.liarIdx]+=2;
+    G.lastDeltas[G.liarIdx]=2;
+  }else{
+    for(let i=0;i<G.players;i++){
+      if(i!==G.liarIdx){G.scores[i]+=1;G.lastDeltas[i]=1;}
+    }
+  }
+}
+
 function showIdentity(){
   show('s-identity');
   let wasLiar=G.votedPlayer===G.liarIdx;
   let area=document.getElementById('identityArea');
-  let html=`<div style="font-size:3.2rem;margin-bottom:6px">${wasLiar?'🚨':'😇'}</div>`;
-  html+=`<div class="title" style="font-size:clamp(1.1rem,4.5vw,1.5rem);margin-bottom:4px">${G.votedPlayer+1}번 플레이어는...</div>`;
+  let lname=playerName(G.liarIdx);
+
+  let html=`<div style="font-size:3rem;margin-bottom:6px">${wasLiar?'🚨':'😈'}</div>`;
+  html+=`<div class="title" style="font-size:clamp(1rem,4vw,1.4rem);margin-bottom:4px">${playerLabel(G.votedPlayer)}은(는)...</div>`;
+
   if(wasLiar){
+    /* ── 라이어를 정확히 지목한 경우 ── */
     let label=G.mode==='fool'?'바보 라이어였습니다!':'라이어였습니다!';
     html+=`<div class="id-badge bad">${label}</div>`;
     if(G.mode==='fool'){
+      // 바보 라이어는 제시어 맞히기 없이 즉시 과학자 승리
+      awardScores(false);
       html+=`<div class="id-info">바보 라이어 제시어: <span class="hl"><strong>${G.card.fk}</strong></span><br>과학자 제시어: <strong>${G.card.k}</strong></div>`;
-      html+=`<button class="btn-go" onclick="resetGame()">새 게임 시작</button>`;
+      html+=renderScoreSummary();
+      html+=`<button class="btn-go" style="margin-top:12px" onclick="nextRound()">다음 라운드 ▶</button>`;
+      html+=`<button class="btn-ghost" onclick="resetGame()">게임 완전 종료</button>`;
     }else{
-      html+=`<div class="id-info">라이어가 제시어를 맞히면 <strong style="color:#ff4466">역전승!</strong></div>`;
-      html+=`<button class="btn-go" onclick="goDefense()">최후의 반론 기회 주기</button>`;
-      html+=`<button class="btn-ghost" onclick="resetGame()">그냥 새 게임 시작</button>`;
+      // 일반 라이어 → 제시어 맞히기 기회
+      html+=`<div class="id-info">라이어에게 <strong style="color:#63aaff">제시어 맞히기</strong> 기회가 주어집니다!<br>과학자들의 제시어를 정확히 입력하면 <strong style="color:#ff4466">역전승!</strong></div>`;
+      html+=`<button class="btn-go" onclick="goDefense()">🎯 제시어 맞히기 시작</button>`;
+      html+=`<button class="btn-ghost" onclick="skipDefense()">맞히기 없이 과학자 승리</button>`;
     }
   }else{
+    /* ── 엉뚱한 사람을 지목 → 라이어 승리! ── */
+    awardScores(true);  // ★ 핵심 수정: 라이어가 살아남았으므로 라이어 +2점
     html+=`<div class="id-badge good">선량한 과학자였습니다!</div>`;
-    html+=`<div class="id-info">진짜 라이어는 <strong style="color:#ff4466">${G.liarIdx+1}번 플레이어</strong>였습니다!<br>과학자 제시어: <strong>${G.card.k}</strong></div>`;
-    html+=`<button class="btn-go" onclick="resetGame()">새 게임 시작</button>`;
+    html+=`<div class="id-info">진짜 라이어는 <strong style="color:#ff4466">${playerLabel(G.liarIdx)}</strong>였습니다!<br>라이어가 살아남아 <strong style="color:#ff4466">라이어 승리!</strong><br>과학자 제시어: <strong>${G.card.k}</strong></div>`;
+    html+=renderScoreSummary();
+    html+=`<button class="btn-go" style="margin-top:12px" onclick="nextRound()">다음 라운드 ▶</button>`;
+    html+=`<button class="btn-ghost" onclick="resetGame()">게임 완전 종료</button>`;
   }
   area.innerHTML=html;
 }
 
-/* ══════════════════════════════════════
-   최후의 반론 (단답형)
-══════════════════════════════════════ */
+/* "맞히기 없이 과학자 승리" 버튼 핸들러 */
+function skipDefense(){
+  awardScores(false);
+  show('s-final');
+  let area=document.getElementById('finalArea');
+  let html=`<div class="final-ico">🎉</div>`;
+  html+=`<div class="final-title" style="color:#63ffbe">과학자 팀 승리!</div>`;
+  html+=`<div class="final-sub">라이어 <strong>${playerName(G.liarIdx)}</strong>이(가) 발각되었습니다.<br>제시어: <strong style="color:#63ffbe">${G.card.k}</strong></div>`;
+  html+=`<div class="card" style="text-align:left;margin-bottom:14px"><div class="card-label">이번 라운드 제시어</div><div class="kw-word" style="font-size:1.5rem;color:#63ffbe">${G.card.k}</div><div class="kw-desc">${G.card.d}</div></div>`;
+  html+=renderScoreSummary();
+  html+=`<button class="btn-go" onclick="nextRound()">다음 라운드 ▶</button>`;
+  html+=`<button class="btn-ghost" onclick="resetGame()">게임 완전 종료</button>`;
+  area.innerHTML=html;
+}
+
+function renderScoreSummary(){
+  let sorted=[...G.scores.map((s,i)=>({i,s,d:G.lastDeltas[i],n:playerName(i)}))].sort((a,b)=>b.s-a.s);
+  let html=`<div style="background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:12px 14px;margin:12px 0;text-align:left;">`;
+  html+=`<div style="font-size:.6rem;font-weight:800;letter-spacing:2px;color:#ffd700;margin-bottom:8px">🏆 현재 점수</div>`;
+  sorted.forEach((p,rank)=>{
+    let isLiar=p.i===G.liarIdx;
+    let rankIcon=rank===0?'🥇':rank===1?'🥈':rank===2?'🥉':'  ';
+    let deltaHtml=p.d>0?`<span style="font-size:.7rem;color:#63ffbe;font-weight:700;margin-left:4px">+${p.d}</span>`:'';
+    html+=`<div style="display:flex;align-items:center;gap:8px;padding:4px 0;${isLiar?'opacity:.7':''}">
+      <span style="width:20px;font-size:.8rem">${rankIcon}</span>
+      <span style="flex:1;font-size:.82rem;font-weight:700;color:#d0d0e0">${p.n}${isLiar?'<span style="font-size:.65rem;color:#ff4466;margin-left:4px">(라이어)</span>':''}</span>
+      <span style="font-family:\'Black Han Sans\',sans-serif;font-size:1rem;color:#63ffbe">${p.s}</span>
+      ${deltaHtml}
+    </div>`;
+  });
+  html+=`</div>`;
+  return html;
+}
+
 function goDefense(){
   show('s-defense');
   let inp=document.getElementById('defenseInput');
@@ -665,26 +774,79 @@ function goDefense(){
 function onDefenseInput(){document.getElementById('defSubmitBtn').disabled=!document.getElementById('defenseInput').value.trim();}
 function onDefenseKey(e){if(e.key==='Enter'&&document.getElementById('defenseInput').value.trim())submitDefense();}
 function normalize(s){return s.trim().replace(/\s/g,'').toLowerCase();}
+
 function submitDefense(){
   let answer=document.getElementById('defenseInput').value.trim();if(!answer)return;
   let win=normalize(answer)===normalize(G.card.k);
+  awardScores(win);
   show('s-final');
   let area=document.getElementById('finalArea');
   let html=`<div class="final-ico">${win?'😈':'🎉'}</div>`;
   html+=`<div class="final-title" style="color:${win?'#ff4466':'#63ffbe'}">${win?'라이어 역전승!':'과학자 팀 최종 승리!'}</div>`;
-  if(win)html+=`<div class="final-sub">라이어가 제시어 "<strong style="color:#63ffbe">${G.card.k}</strong>"을(를) 정확히 맞혔습니다!</div>`;
+  if(win)html+=`<div class="final-sub">라이어 <strong>${playerName(G.liarIdx)}</strong>이(가)<br>"<strong style="color:#63ffbe">${G.card.k}</strong>"을(를) 정확히 맞혔습니다!</div>`;
   else html+=`<div class="final-sub">라이어가 "<strong style="color:#ff4466">${answer}</strong>"을(를) 썼지만,<br>정답은 "<strong style="color:#63ffbe">${G.card.k}</strong>"이었습니다.</div>`;
-  html+=`<div class="card" style="text-align:left;margin-bottom:18px"><div class="card-label">이번 라운드 제시어</div><div class="kw-word" style="font-size:1.6rem;color:#63ffbe">${G.card.k}</div><div class="kw-desc">${G.card.d}</div></div>`;
-  html+=`<button class="btn-go" onclick="resetGame()">새 게임 시작</button>`;
+  html+=`<div class="card" style="text-align:left;margin-bottom:14px"><div class="card-label">이번 라운드 제시어</div><div class="kw-word" style="font-size:1.5rem;color:#63ffbe">${G.card.k}</div><div class="kw-desc">${G.card.d}</div></div>`;
+  html+=renderScoreSummary();
+  html+=`<button class="btn-go" onclick="nextRound()">다음 라운드 ▶</button>`;
+  html+=`<button class="btn-ghost" onclick="resetGame()">게임 완전 종료</button>`;
   area.innerHTML=html;
 }
 
-/* ══════════════════════════════════════
-   키워드 모달
-══════════════════════════════════════ */
+function nextRound(){
+  clearInterval(G.timerID);
+  let pool=G.catMode==='pick'?CARDS.filter(c=>G.selectedCats.includes(c.cat)):CARDS;
+  if(!pool.length){alert('카테고리를 최소 1개 이상 선택해주세요!');return;}
+  G.card=pool[Math.floor(Math.random()*pool.length)];
+  G.liarIdx=pickLiarIdx();
+  G.liarHistory.push(G.liarIdx);
+  if(G.liarHistory.length>4)G.liarHistory.shift();
+  G.curPlayer=0;G.votedPlayer=-1;G.lastDeltas=Array(G.players).fill(0);
+  G.roundNum++;
+  showRevealWait();show('s-reveal');
+}
+
+function resetGame(){
+  clearInterval(G.timerID);
+  G.scores=[];G.names=[];G.roundNum=0;G.liarHistory=[];G.lastDeltas=[];
+  show('s-setup');initSetup();
+}
+
+function openScoreModal(){renderScoreModal();document.getElementById('scoreModal').classList.add('open');}
+function closeScoreModal(){document.getElementById('scoreModal').classList.remove('open');}
+function closeScoreModalOutside(e){if(e.target===document.getElementById('scoreModal'))closeScoreModal();}
+
+function renderScoreModal(){
+  let badge=document.getElementById('scoreRoundBadge');
+  badge.textContent=`${G.roundNum}라운드 진행 중`;
+  let body=document.getElementById('scoreBody');body.innerHTML='';
+  let sorted=[...G.scores.map((s,i)=>({i,s,d:G.lastDeltas[i]||0,n:playerName(i)}))].sort((a,b)=>b.s-a.s);
+  sorted.forEach((p,rank)=>{
+    let rankClass=rank===0?'rank-1':rank===1?'rank-2':rank===2?'rank-3':'rank-other';
+    let rankTxt=rank===0?'1':rank===1?'2':rank===2?'3':`${rank+1}`;
+    let isLiar=p.i===G.liarIdx;
+    let row=document.createElement('div');
+    row.className='score-row'+(p.d>0?' highlight':'');
+    row.style.animation=`scoreIn .3s ${rank*0.06}s ease both`;
+    let deltaHtml='';
+    if(p.d>0)deltaHtml=`<span class="score-delta delta-pos">+${p.d}</span>`;
+    row.innerHTML=`
+      <div class="score-rank ${rankClass}">${rankTxt}</div>
+      <div class="score-name">${p.n}${isLiar?'<span style="font-size:.65rem;color:#ff4466;margin-left:5px">🕵️ 라이어</span>':''}</div>
+      <div style="display:flex;align-items:baseline;gap:2px">
+        <span class="score-pts">${p.s}</span><span class="score-pts-unit">점</span>
+        ${deltaHtml}
+      </div>`;
+    body.appendChild(row);
+  });
+  let resetBtn=document.createElement('button');
+  resetBtn.className='score-reset-btn';
+  resetBtn.textContent='🗑️ 점수 초기화';
+  resetBtn.onclick=()=>{if(confirm('점수를 모두 초기화하시겠습니까?')){G.scores=Array(G.players).fill(0);G.lastDeltas=Array(G.players).fill(0);G.roundNum=0;renderScoreModal();}};
+  body.appendChild(resetBtn);
+}
+
 function openKeywordModal(){
-  modalActiveCat='전체';
-  renderModalFilter();renderModalBody();
+  modalActiveCat='전체';renderModalFilter();renderModalBody();
   document.getElementById('kwModal').classList.add('open');
 }
 function closeKeywordModal(){document.getElementById('kwModal').classList.remove('open');}
@@ -695,12 +857,11 @@ function renderModalFilter(){
   ['전체',...allCats()].forEach(cat=>{
     let b=document.createElement('button');
     b.className='cat-chip'+(cat===modalActiveCat?' on':'');
-    b.textContent=cat+(cat==='전체'?'':`(${CARDS.filter(c=>c.cat===cat).length})`);
+    b.textContent=cat+(cat==='전체'?` (${CARDS.length})`:`(${CARDS.filter(c=>c.cat===cat).length})`);
     b.onclick=()=>{modalActiveCat=cat;renderModalFilter();renderModalBody();};
     area.appendChild(b);
   });
 }
-
 function renderModalBody(){
   let body=document.getElementById('modalBody');body.innerHTML='';
   let filtered=modalActiveCat==='전체'?CARDS:CARDS.filter(c=>c.cat===modalActiveCat);
@@ -712,12 +873,6 @@ function renderModalBody(){
   });
 }
 
-/* ══════════════════════════════════════
-   리셋
-══════════════════════════════════════ */
-function resetGame(){clearInterval(G.timerID);show('s-setup');initSetup();}
-
-// 초기화
 initSetup();
 </script>
 </body>
